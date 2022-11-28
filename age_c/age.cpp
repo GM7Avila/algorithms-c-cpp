@@ -47,7 +47,7 @@ void calcularIdade(int db, int mb, int yb){
 
     int dcount = 0, mcount = 0, ycount = 0;
 
-    while(mb < ma || yb < ya){
+    while(mb < ma -1 || yb < ya){
         mb++;
         mcount++;
 
@@ -56,9 +56,10 @@ void calcularIdade(int db, int mb, int yb){
             ycount++;
         } else if (mb == 12){
             yb++;
-            mb = 0;
+            mb = 0; //inicia uma nova contagem de mês
         }
     }
+    //aguste para o último mês   
     if (db == da){
         mcount++;
         dcount = 0;
@@ -76,11 +77,11 @@ void calcularIdade(int db, int mb, int yb){
 
 int main(){
     int d, m, y;
-    cout << "Digite a data de nascimento: dd mm yyyy: \n";
+    cout << "Digite a data de nascimento no formato: dd mm yyyy: \n";
     
     cin >> d; 
     cin >> m; 
-    cin >>y;
+    cin >> y;
 
     if (validarData(d,m,y) == 1){
         calcularIdade(d,m,y);
