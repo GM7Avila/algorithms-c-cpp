@@ -56,7 +56,7 @@ int main() {
                 C[iA] = B[i];
                 iA++;
             }else{
-                D[iA] = B[i];
+                D[iD] = B[i];
                 iD++;
             }
     }
