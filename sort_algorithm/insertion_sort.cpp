@@ -12,14 +12,20 @@ using namespace std;
         Estável: não altera a ordem de dados iguais
         Capaz de ordenar os dados em demanda (tempo real)
     */
+
 int main() {
 
     const int n = 4;
     int vect[n] = {1,14,31,2};
 
-    for(int i=1;i<n;i++){
-        int aux = vect[i];
+    for(int i=0, i<n , i++){
+
+        if(vect[i]>vect[i+1]){
+            
+        }
+
     }
+
 
     return 0;
     

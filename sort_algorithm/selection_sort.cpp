@@ -17,10 +17,14 @@ int main() {
     }
     cout << "\n\nOrdenando...\n\n";
     
-    for (int j=0; j<=n; j++){
-        for(int i=j+1 ; i<=n ; i++){ //começa na próxima posição referente ao i
-            if(vect[j]>vect[i]){
-                // i é menor que j
+    // j representa o estado atual, desconsiderando os elentos já ordenados
+    for (int j=0; j<=n; j++){ 
+
+        // começa na próxima posição referente ao j
+        for(int i=j+1 ; i<=n ; i++){ 
+           
+            //compara o vect[j] com todos os outros de vect[i]
+            if(vect[j]>vect[i]){ 
                 int aux = vect[i];
                 vect[i] = vect[j];
                 vect[j] = aux;
