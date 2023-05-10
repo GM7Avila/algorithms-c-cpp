@@ -5,7 +5,7 @@ using namespace std;
 
 # Bubble Sort
 - Ordenação para pequenos conjuntos de dados
-
+- De dois em dois
 */ 
 
 
