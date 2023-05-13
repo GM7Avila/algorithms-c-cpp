@@ -72,6 +72,7 @@ void printArray(int arr[], int size) {
   cout << endl;
 }
 
+
 // Driver program
 int main() {
   int arr[] = {6, 5, 12, 10, 9, 1};
