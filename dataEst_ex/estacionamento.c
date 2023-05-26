@@ -20,7 +20,7 @@ typedef struct {
 // inicializa vazio
 void stackStarter (Stack *p) {
    
-    p->top = 0;
+    p->top = MAX_SIZE;
 
     // inicia todas as vagas por padrão com A AAA1111 (vaga vazia)
     for(int i=0; i<MAX_SIZE; i++){
@@ -64,9 +64,22 @@ void printStack(Stack *p){
 
 }
 
-void push(Stack *p){
-    p->garage[p->top];
+void comandLine(Stack *p, char *comands[], int n){
+
+    //p->garage[i].registro[0] == 'E'
+
+    for(int i=0; i < p->top; i++){
+
+        printf("\n%c", comands[i][0]);
+
+        if(comands[i][0] == 'E'){
+            printf("\nFunc do carro entrando");
+        } else if (comands[i][0] == 'S'){
+            printf("\nFunc do carro saindo");
+        } 
+    }
 }
+
 
 int main(){
 
@@ -74,32 +87,14 @@ int main(){
     Stack aux; // pilha auxiliar -> para manobrar
 
     int exit = 0;
+    int n = 5;
     stackStarter(&p);
 
-    do{
-
-        printStack(&p);
-        printf("Selecione um Comando\n1. Estacionar\n2. Manobrar veiculo\n=> ");
-        int mode = 0;
-        scanf("%d", &mode);
-
-        switch (mode)
-        {
-        case 1:
-            printf("Mode 1");
-            break;
-        case 2:
-            printf("Mode 2");
-            break;
-        default:
-            break;
-        }
-
-        printf("\n\nDigite 0 para continuar e outro valor para sair\n=> ");
-        scanf("%d", &exit);
-
-    } while(exit == 0);
-
+    // Comand Line:
+    char *StringList[5]={"AAA1111", "BAA1111", "AAA1111", "CAA1111", "AAA1111"};
+    
+    printStack(&p);
+    comandLine(&p, StringList, n);
 
     return 1;
 
