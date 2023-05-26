@@ -100,7 +100,6 @@ void comandLine(Stack *p, Stack *aux, char *comands[], int n){
                         aux->top++;
 
                     }
-
                 }
             }
 
