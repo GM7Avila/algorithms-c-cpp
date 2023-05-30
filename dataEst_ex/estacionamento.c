@@ -5,7 +5,7 @@
 
 #define MAX_SIZE 5
 
-// vaga de carro - registro + count manobras
+// carro - registro + count manobras
 typedef struct {
     char registro[9]; // [E/S] AAA1111
     int count;
@@ -26,9 +26,7 @@ void stackStarter (Stack *p) {
     for(int i=0; i<MAX_SIZE; i++){
         
         Car voidCar;
-
         voidCar.count = 0;
-
         p->garage[i] = voidCar;
 
         makeVoid(p, i);
@@ -45,22 +43,26 @@ void makeVoid(Stack *p, int i){
 }
 
 // printa a pilha
-void printStack(Stack *p){
+void printStack(Stack *p, bool isAux){
     
     printf("\n");
+
+    if (isAux == true){
+        printf("======= AUXILIAR =======\n");
+    } else printf("==== ESTACIONAMENTO ====\n");
 
     for(int i=0; i<MAX_SIZE; i++){
 
         int resultCmp = strcmp(p->garage[i].registro, "A AAA1111");
 
         if(resultCmp == 0){
-            printf("Vaga: %d: [Vazia]\n", i+1);
+            printf("Vaga %d: [Vazia]\n", i+1);
         } else {
             printf("Vaga %d: [%s | x%d]\n", i+1, p->garage[i].registro, p->garage[i].count);
         }
     }
 
-    printf("\n");
+    printf("========================\n");
 
 }
 
@@ -79,19 +81,16 @@ void comandLine(Stack *p, Stack *aux, char *comands[], int n){
 
 
         } else if (comands[i][0] == 'S'){
-            printf("\nOrdem de saida");
             // busca a posição pela placa
             for(int j=0; j < p->top; j++){ 
                 // compara a partir do primeiro elemento  
                 if(strcmp(&(p->garage[j].registro)[1], &(comands[i])[1]) == 0){
-                    printf("Encontrou");
                     //strcpy(aux->garage[aux->top].registro, comands[i]);
 
                     index_markdown = j; //index da onde vai começar o loop de remoção
 
                     // transferência de dados para o outro vetor em ordem e depois volta com eles de volta
                     for(int x=index_markdown; x < p->top; x++){
-                        printf("entrando nesse lugar");
                         aux->garage[aux->top] = p->garage[x]; //transfere para o auxiliar
                     
                         strcpy (p->garage[x].registro, "A AAA1111");
@@ -114,22 +113,26 @@ int main(){
     Stack p; // pilha -> alameda
     Stack aux; // pilha auxiliar -> para manobrar
 
+    // Número de comandos
     int n = 6;
 
     // Iniciando a pilha vazia  
     stackStarter(&p);
     stackStarter(&aux);
 
+    // print vazio
+    printStack(&p, false);
+    printStack(&aux, true);
+
     // Comand Line: Carros entrando
     char *StringList[6]={"E KVN4546", "E BAF3597", "E TCP8080", "E JAV4123", "E SAF7770", "S JAV4123"};
     
-    printStack(&p);
-    printStack(&aux);
+    
 
     comandLine(&p, &aux, StringList, n);
     
-    printStack(&p);
-    printStack(&aux);
+    printStack(&p, false);
+    printStack(&aux, true);
 
     return 1;
 
