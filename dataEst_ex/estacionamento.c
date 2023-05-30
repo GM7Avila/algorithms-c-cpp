@@ -41,7 +41,6 @@ void stackStarter (Stack *p) {
 
 }
 
-
 // printa a pilha
 void printStack(Stack *p, bool isAux){
     
@@ -68,11 +67,11 @@ void printStack(Stack *p, bool isAux){
 
 void comandLine(Stack *p, Stack *aux, char *comands[], int n){
 
-    int index_markdown = 0; 
-    
     // roda a lista de comandos
     for(int i=0; i < n; i++){
         printf("\n%c", comands[i][0]);
+        
+        int index_markdown = 0; 
 
         // FUNC. DE ENTRADA - PRIMEIRA VEZ DO CARRO NA PILHA
         if(comands[i][0] == 'E'){
@@ -139,6 +138,9 @@ void comandLine(Stack *p, Stack *aux, char *comands[], int n){
                 }
             }
         } 
+
+        printStack(p, false);
+
     }
 }
 // TO-DO : criar métodos para cada função acima
@@ -160,10 +162,15 @@ int main(){
     printStack(&aux, true);
 
     // Comand Line: Carros entrando
-    char *StringList[6]={"E KVN4546", "E BAF3597", "E TCP8080", "E JAV4123", "E SAF7770", "S SAF7770"};
+    char *StringList[6]={
+        "E KVN4546", 
+        "E BAF3597", 
+        "E TCP8080", 
+        "E JAV4123", 
+        "E SAF7770", 
+        "S SAF7770"
+    };
     
-    
-
     comandLine(&p, &aux, StringList, n);
     
     printStack(&p, false);
