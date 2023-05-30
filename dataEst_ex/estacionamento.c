@@ -11,18 +11,25 @@ typedef struct {
     int count;
 } Car;
 
-// pilha de Carros - carro + posição do topo (?)
+// pilha de Carros - carro + posição do topo 
 typedef struct {
     Car garage[MAX_SIZE];
     int top;
 } Stack;
+
+// apaga uma vaga (torna ela "vazia" - carro com informações "null") - Recebe um ponteiro para a pilha e o index da vaga que deseja "apagar" o elemento
+void makeVoid(Stack *p, int i){
+
+    strcpy (p->garage[i].registro, "Vazio");
+    p->garage[i].count = 0;
+
+}
 
 // inicializa vazio
 void stackStarter (Stack *p) {
    
     p->top = 0;
 
-    // inicia todas as vagas por padrão com A AAA1111 (vaga vazia)
     for(int i=0; i<MAX_SIZE; i++){
         
         Car voidCar;
@@ -34,13 +41,6 @@ void stackStarter (Stack *p) {
 
 }
 
-// apaga uma vaga (torna ela "vazia" = A AAA1111) - Recebe um ponteiro para a pilha e o index da vaga que deseja "apagar" o elemento
-void makeVoid(Stack *p, int i){
-
-    strcpy (p->garage[i].registro, "A AAA1111");
-    p->garage[i].count = 0;
-
-}
 
 // printa a pilha
 void printStack(Stack *p, bool isAux){
@@ -53,10 +53,10 @@ void printStack(Stack *p, bool isAux){
 
     for(int i=0; i<MAX_SIZE; i++){
 
-        int resultCmp = strcmp(p->garage[i].registro, "A AAA1111");
+        int resultCmp = strcmp(p->garage[i].registro, "Vazio");
 
         if(resultCmp == 0){
-            printf("Vaga %d: [Vazia]\n", i+1);
+            printf("Vaga %d: [%s]\n", i+1, p->garage[i].registro);
         } else {
             printf("Vaga %d: [%s | x%d]\n", i+1, p->garage[i].registro, p->garage[i].count);
         }
@@ -94,15 +94,16 @@ void comandLine(Stack *p, Stack *aux, char *comands[], int n){
 
 
         } else if (comands[i][0] == 'S'){
-            // busca a posição pela placa
+            
+            // busca a posição pela placa na pilha p
             for(int j=0; j < p->top; j++){ 
+                
                 // compara a partir do primeiro elemento = Número da placa AAA1111
                 if(strcmp(&(p->garage[j].registro)[1], &(comands[i])[1]) == 0){
-                    //strcpy(aux->garage[aux->top].registro, comands[i]);
 
                     index_markdown = j; //index da onde vai começar o loop de remoção
 
-                    int temp_pTop = 0; // variável para contabilizar a redução do valor de top (para não dar conflito no loop for abaixo)
+                    // int temp_pTop = 0; // variável para contabilizar a redução do valor de top (para não dar conflito no loop for abaixo)
 
                     // transferência de dados do vetor p (estacionamento) para o aux (auxiliar)
                     for(int x=index_markdown; x < p->top; x++){
@@ -114,23 +115,33 @@ void comandLine(Stack *p, Stack *aux, char *comands[], int n){
                         aux->garage[aux->top] = p->garage[x]; 
                         aux->top++;
 
-                        // diminui o topo de p e torna o elemento vazio
-                        temp_pTop ++;
+                        // diminui o topo de p (por meio de uma variavel auxiliar) e torna o elemento vazio
+                        //temp_pTop ++;
                         makeVoid(p, x);
 
                     }
 
-                    // p->top fora do laço for é reduzido
-                    p->top -= temp_pTop;
-                    
+                    //p->top -= temp_pTop;
+                    p->top = index_markdown;
+
+                    // voltando com os valores de aux para p na posição index_markdown
+                    // i = 1 - aux[0] é o carro que está sendo retirado, func. de saida
+                    makeVoid(aux, 0);
+                    for(int i = 1; i<= aux->top; i++){
+
+                        aux->garage[i].count ++;
+                        p->garage[p->top] = aux->garage[i]; 
+                        makeVoid(aux, i);
+
+                    } 
+                    aux->top = 0;
+
                 }
             }
-
-            // como encontrar o elemento que tem que sair?
         } 
     }
 }
-
+// TO-DO : criar métodos para cada função acima
 
 int main(){
 
