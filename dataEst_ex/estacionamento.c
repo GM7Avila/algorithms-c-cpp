@@ -74,31 +74,55 @@ void comandLine(Stack *p, Stack *aux, char *comands[], int n){
     for(int i=0; i < n; i++){
         printf("\n%c", comands[i][0]);
 
+        // FUNC. DE ENTRADA - PRIMEIRA VEZ DO CARRO NA PILHA
         if(comands[i][0] == 'E'){
-            strcpy(p->garage[p->top].registro, comands[i]);
+
+            // Se a pilha estiver cheia: stack overflow
+            if(p->top >= MAX_SIZE){
+                printf("Stack overflow");
+                exit(100);
+            } 
+
+            // Criar um struct Car e transferir os dados da lista de comando para um carro estacioando no topo
+            Car newCar;
+            strcpy(newCar.registro, comands[i]);
+            newCar.count = 0; 
+
+            // Aloca o carro na pilha p, e soma o topo para que o prox. carro seja alocado na última vaga disponível
+            p->garage[p->top] = newCar;
             p->top++;
-            // p->garage[100].registro não existe
 
 
         } else if (comands[i][0] == 'S'){
             // busca a posição pela placa
             for(int j=0; j < p->top; j++){ 
-                // compara a partir do primeiro elemento  
+                // compara a partir do primeiro elemento = Número da placa AAA1111
                 if(strcmp(&(p->garage[j].registro)[1], &(comands[i])[1]) == 0){
                     //strcpy(aux->garage[aux->top].registro, comands[i]);
 
                     index_markdown = j; //index da onde vai começar o loop de remoção
 
-                    // transferência de dados para o outro vetor em ordem e depois volta com eles de volta
-                    for(int x=index_markdown; x < p->top; x++){
-                        aux->garage[aux->top] = p->garage[x]; //transfere para o auxiliar
-                    
-                        strcpy (p->garage[x].registro, "A AAA1111");
-                        p->garage[x].count = 0; 
+                    int temp_pTop = 0; // variável para contabilizar a redução do valor de top (para não dar conflito no loop for abaixo)
 
+                    // transferência de dados do vetor p (estacionamento) para o aux (auxiliar)
+                    for(int x=index_markdown; x < p->top; x++){
+                        
+                        // contabiliza uma manobra de saída do veículo
+                        p->garage[x].count++;
+
+                        // transfere os elementos de p para aux e incrementa o topo em aux
+                        aux->garage[aux->top] = p->garage[x]; 
                         aux->top++;
 
+                        // diminui o topo de p e torna o elemento vazio
+                        temp_pTop ++;
+                        makeVoid(p, x);
+
                     }
+
+                    // p->top fora do laço for é reduzido
+                    p->top -= temp_pTop;
+                    
                 }
             }
 
@@ -125,7 +149,7 @@ int main(){
     printStack(&aux, true);
 
     // Comand Line: Carros entrando
-    char *StringList[6]={"E KVN4546", "E BAF3597", "E TCP8080", "E JAV4123", "E SAF7770", "S JAV4123"};
+    char *StringList[6]={"E KVN4546", "E BAF3597", "E TCP8080", "E JAV4123", "E SAF7770", "S SAF7770"};
     
     
 
