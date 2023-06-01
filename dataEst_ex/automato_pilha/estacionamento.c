@@ -4,6 +4,7 @@
 #include <string.h>
 
 #define MAX_SIZE 5
+#define N 9
 
 // carro - registro + count manobras
 typedef struct {
@@ -69,7 +70,6 @@ void comandLine(Stack *p, Stack *aux, char *comands[], int n){
 
     // roda a lista de comandos
     for(int i=0; i < n; i++){
-        printf("\n>>>>>> %c", comands[i][0]);
         
         int index_markdown = 0; 
 
@@ -86,40 +86,34 @@ void comandLine(Stack *p, Stack *aux, char *comands[], int n){
             strcpy(newCar.registro, comands[i]);
             newCar.count = 0; 
 
+            printf("\n[E] Carro %s vai entrar no estacionamento", newCar.registro);
+
             // Aloca o carro na pilha p, e soma o topo para que o prox. carro seja alocado na última vaga disponível
             p->garage[p->top] = newCar;
             p->top++;
 
             }
 
-
         } else if (comands[i][0] == 'S'){
             // busca a posição pela placa na pilha p
             for(int j=0; j < p->top; j++){ 
-                printf("\nPercorreu a pilha ate p[%d]", j);
                 // compara a partir do primeiro elemento = Número da placa AAA1111
                 if(strcmp(&(p->garage[j].registro)[1], &(comands[i])[1]) == 0){
                     index_markdown = j; //index da onde vai começar o loop de remoção
-                    printf("\nAchou a placa de saida: [%s], x%d", p->garage[j].registro, p->garage[j].count);
-                    // int temp_pTop = 0; // variável para contabilizar a redução do valor de top (para não dar conflito no loop for abaixo)
 
                     // transferência de dados do vetor p (estacionamento) para o aux (auxiliar)
                     for(int x=index_markdown; x < p->top; x++){
-                        
                         // contabiliza uma manobra de saída do veículo
                         p->garage[x].count++;
                         
-                        printf("\nManobrou:[%s], x%d\n", p->garage[x].registro, p->garage[x].count);
-
+                        printf("[S] Carro %s vair sair do estacionamento", p->garage[x].registro);
 
                         // transfere os elementos de p para aux e incrementa o topo em aux
                         aux->garage[aux->top] = p->garage[x]; 
                         aux->top++;
-                        // diminui o topo de p (por meio de uma variavel auxiliar) e torna o elemento vazio
-                        //temp_pTop ++;
                         makeVoid(p, x);
                         
-                        printf("\nSub-Etapa1: transferindo para aux");
+                        printf("\n");
                         printStack(p, false);
                         printStack(aux, true);
 
@@ -134,22 +128,20 @@ void comandLine(Stack *p, Stack *aux, char *comands[], int n){
                     
                     for(int i = 1; i < aux->top; i++){
 
-                        printf("\n Devolvendo aux[%d]: %s", i, aux->garage[i].registro);
-                        aux->garage[i].count ++;
-                        printf("\n Count++: %d", aux->garage[i].count);
+                        printf("\n- Carro %s vai manobrar de volta ao estacionamento. Manobras: x%d", aux->garage[i].registro, aux->garage[i].count);
 
                         p->garage[p->top] = aux->garage[i]; 
                         p->top ++;
 
-                        printf(" p->top = %d", p->top);
                         makeVoid(aux, i);
                         
                     } 
+                    printf("\n");
                     aux->top = 0;
 
                     
                 } else {
-                    printf("\nO carro %s nao esta no estacionamento\n", &(comands[i][2]));
+                    printf("\nO carro %s ainda nao esta no estacionamento\n", &(comands[i][2]));
                 }
                     printStack(p, false);
                     printStack(aux, true);
@@ -166,20 +158,9 @@ int main(){
 
     Stack p; // pilha -> alameda
     Stack aux; // pilha auxiliar -> para manobrar
-
-    // Número de comandos
-    int n = 9;
-
-    // Iniciando a pilha vazia  
-    stackStarter(&p);
-    stackStarter(&aux);
-
-    // print vazio
-    printStack(&p, false);
-    printStack(&aux, true);
-
+    
     // Comand Line: Carros entrando
-    char *StringList[9]={
+    char *StringList[N]={
         "E KVN4546", 
         "E BAF3597", 
         "E TCP8080", 
@@ -190,8 +171,16 @@ int main(){
         "E NAO1013",
         "S JAV4123"
     };
+
+    // Iniciando a pilha vazia  
+    stackStarter(&p);
+    stackStarter(&aux);
+
+    // print vazio
+    printStack(&p, false);
+    printStack(&aux, true);
     
-    comandLine(&p, &aux, StringList, n);
+    comandLine(&p, &aux, StringList, N);
     
     printf("\n\nResultado");
     printStack(&p, false);
