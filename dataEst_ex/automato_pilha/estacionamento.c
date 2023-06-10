@@ -106,7 +106,7 @@ void comandLine(Stack *p, Stack *aux, char *comands[], int n){
                         // contabiliza uma manobra de saída do veículo
                         p->garage[x].count++;
                         
-                        printf("[S] Carro %s vair sair do estacionamento", p->garage[x].registro);
+                        printf("\n[S] Carro %s vair sair do estacionamento", p->garage[x].registro);
 
                         // transfere os elementos de p para aux e incrementa o topo em aux
                         aux->garage[aux->top] = p->garage[x]; 
@@ -139,17 +139,13 @@ void comandLine(Stack *p, Stack *aux, char *comands[], int n){
                     printf("\n");
                     aux->top = 0;
 
-                    
+                    printStack(p, false);
+                    printStack(aux, true);
                 } else {
                     printf("\nO carro %s ainda nao esta no estacionamento\n", &(comands[i][2]));
                 }
-                    printStack(p, false);
-                    printStack(aux, true);
-            }
+            } 
         } 
-
-
-
     }
 }
 // TO-DO : criar métodos para cada função acima
