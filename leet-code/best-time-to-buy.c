@@ -53,16 +53,12 @@ int maxProfit(int* prices, int pricesSize) {
     for(int i=1; i<pricesSize; i++){
 
         // atualiza o menor valor minimo até o momento
-        if(low > prices[i]){
-            low = prices[i];
-        } 
+        low = fmin(low, prices[i]);
 
         int profit = prices[i] - low;
 
         // atualiza o profit maximo
-        if(maxProfitValue < profit){
-            maxProfitValue = profit;
-        }        
+        maxProfitValue = fmax(maxProfitValue, profit);     
 
     }
     
