@@ -1,0 +1,45 @@
+# Ignorar arquivos de compilação
+*.o
+*.obj
+*.lo
+*.la
+*.al
+*.gch
+*.gcno
+*.gcda
+*.dSYM/
+
+# Ignorar arquivos binários e executáveis
+*.exe
+*.out
+*.app
+*.dll
+*.so
+*.dylib
+
+# Ignorar diretórios de compilação
+/build/
+bin/
+obj/
+debug/
+release/
+
+# Ignorar arquivos de configurações de IDEs
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln*
+*.vcxproj*
+
+# Ignorar arquivos temporários do sistema
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Ignorar arquivos gerados por compiladores específicos
+*.idb
+*.pdb
